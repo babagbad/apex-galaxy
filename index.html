@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>APEX Galaxy — Every athlete, one universe</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2305070d'/%3E%3Cpath d='M8 23 16 7l8 16' stroke='%23f5c451' stroke-width='3' fill='none'/%3E%3Ccircle cx='16' cy='18' r='2.5' fill='%23f5c451'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<canvas id="scene" aria-label="3D galaxy of athletes plotted by APEX metrics"></canvas>
+<div id="labels" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="#" aria-label="APEX Galaxy home">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="14.5" stroke="currentColor" stroke-opacity=".35"/>
+      <ellipse cx="16" cy="16" rx="14.5" ry="5.5" stroke="currentColor" stroke-opacity=".35" transform="rotate(-24 16 16)"/>
+      <path d="M9 23 16 8l7 15" stroke="var(--gold)" stroke-width="2.4" stroke-linejoin="round"/>
+      <circle cx="16" cy="18.5" r="2.2" fill="var(--gold)"/>
+    </svg>
+    <span class="brand-name">APEX <em>Galaxy</em></span>
+  </a>
+
+  <div class="search">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="search" type="search" placeholder="Fly to an athlete…" autocomplete="off" aria-label="Search athletes" />
+    <ul id="results" role="listbox"></ul>
+  </div>
+
+  <div class="stat-chip"><span id="visibleCount" class="mono">6,180</span> stars in view</div>
+</header>
+
+<aside class="controls" aria-label="Galaxy controls">
+  <section>
+    <h2>Axes</h2>
+    <div class="axis-row"><span class="axis-tag x">X</span><select id="axX" aria-label="X axis"></select></div>
+    <div class="axis-row"><span class="axis-tag y">Y</span><select id="axY" aria-label="Y axis"></select></div>
+    <div class="axis-row"><span class="axis-tag z">Z</span><select id="axZ" aria-label="Z axis"></select></div>
+    <div class="presets" id="presets"></div>
+  </section>
+
+  <section>
+    <h2>Sports</h2>
+    <div id="sports" class="sports"></div>
+  </section>
+
+  <section>
+    <h2>Minimum GOAT score <span id="minGoatVal" class="mono">0</span></h2>
+    <input id="minGoat" type="range" min="0" max="90" step="1" value="0" aria-label="Minimum GOAT score" />
+    <label class="check"><input type="checkbox" id="toggleLabels" checked /> Name the brightest stars</label>
+    <label class="check"><input type="checkbox" id="toggleSpin" /> Slow drift</label>
+  </section>
+
+  <section class="help">
+    <p><kbd>Drag</kbd> orbit · <kbd>Scroll</kbd> fly toward cursor · <kbd>Right-drag</kbd> pan</p>
+    <p><kbd>Click</kbd> a star to inspect · <kbd>Shift</kbd>+click to compare · <kbd>Esc</kbd> reset</p>
+  </section>
+</aside>
+
+<aside id="panel" class="panel" aria-live="polite" hidden>
+  <button id="closePanel" class="icon-btn" aria-label="Close details">×</button>
+  <div class="panel-sport" id="pSport"></div>
+  <h1 id="pName"></h1>
+  <p class="panel-meta" id="pMeta"></p>
+  <div class="goat-ring">
+    <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" id="pRing" class="ring"/></svg>
+    <div><span id="pGoat" class="mono big"></span><span class="lbl">GOAT score</span></div>
+  </div>
+  <div class="ranks">
+    <div><span class="mono" id="pGR"></span><span class="lbl">Global rank</span></div>
+    <div><span class="mono" id="pSR"></span><span class="lbl">Sport rank</span></div>
+    <div><span class="mono" id="pSpan"></span><span class="lbl">Career</span></div>
+  </div>
+  <div class="bars" id="pBars"></div>
+  <h3>Career trajectory <span class="lbl">season APEX score</span></h3>
+  <svg id="pSpark" class="spark" viewBox="0 0 300 90" preserveAspectRatio="none"></svg>
+  <div class="spark-axis"><span id="pY0"></span><span id="pPeak"></span><span id="pY1"></span></div>
+  <button id="pinBtn" class="btn">Add to comparison</button>
+</aside>
+
+<div id="compare" class="compare" hidden>
+  <div class="compare-head"><h2>Constellation</h2><button id="clearCompare" class="link-btn">Clear</button></div>
+  <div id="compareList" class="compare-list"></div>
+</div>
+
+<div id="tooltip" class="tooltip" role="status"></div>
+<div id="loader" class="loader"><div class="loader-dot"></div><p>Charting 6,180 careers…</p></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
