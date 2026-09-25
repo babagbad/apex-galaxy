@@ -1,16 +1,20 @@
 {
   "name": "apex-galaxy",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "APEX Galaxy: every great athlete as a star in one 3D universe",
   "dependencies": {
-    "three": "^0.186.1",
+    "lil-gui": "^0.19.2",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
     "vite": "^5.4.21"
   }
 }

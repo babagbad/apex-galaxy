@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>APEX Galaxy — Every athlete, one universe</title>
+<title>APEX Galaxy — The most dominant athletes in history, in 3D</title>
+<meta name="description" content="518 of the most dominant careers across seven sports, plotted by Height, Length and Separation. Build your own GOAT formula." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2305070d'/%3E%3Cpath d='M8 23 16 7l8 16' stroke='%23f5c451' stroke-width='3' fill='none'/%3E%3Ccircle cx='16' cy='18' r='2.5' fill='%23f5c451'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://api.fontshare.com" />
 <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
 <canvas id="scene" aria-label="3D galaxy of athletes plotted by APEX metrics"></canvas>
@@ -31,7 +31,8 @@
     <ul id="results" role="listbox"></ul>
   </div>
 
-  <div class="stat-chip"><span id="visibleCount" class="mono">6,180</span> stars in view</div>
+  <div id="leader" class="leader-chip"></div>
+  <div class="stat-chip"><span id="visibleCount" class="mono">518</span> stars in view</div>
 </header>
 
 <aside class="controls" aria-label="Galaxy controls">
@@ -49,7 +50,20 @@
   </section>
 
   <section>
-    <h2>Minimum GOAT score <span id="minGoatVal" class="mono">0</span></h2>
+    <h2>Build your GOAT formula</h2>
+    <div class="weights">
+      <label class="w"><span class="w-name x">Height</span><input id="w_height" type="range" min="0" max="100" step="1" aria-label="Height weight" /><span id="w_height_v" class="mono">20%</span></label>
+      <label class="w"><span class="w-name y">Length</span><input id="w_length" type="range" min="0" max="100" step="1" aria-label="Length weight" /><span id="w_length_v" class="mono">30%</span></label>
+      <label class="w"><span class="w-name z">Separation</span><input id="w_separation" type="range" min="0" max="100" step="1" aria-label="Separation weight" /><span id="w_separation_v" class="mono">50%</span></label>
+    </div>
+    <div class="presets" id="weightPresets"></div>
+    <p class="hint">Experts = weights fitted to published all-time rankings.</p>
+  </section>
+
+  <section>
+    <label class="check strong"><input type="checkbox" id="toggleEveryone" /> Show everyone <span class="mono dim"><span id="everyoneCount">9,858</span></span></label>
+    <p class="hint">Default view: the top 75 per sport (<span id="curatedCount">518</span>), with at least 20 active athletes each where the data allows.</p>
+    <h2 class="mt">Minimum GOAT score <span id="minGoatVal" class="mono">0</span></h2>
     <input id="minGoat" type="range" min="0" max="90" step="1" value="0" aria-label="Minimum GOAT score" />
     <label class="check"><input type="checkbox" id="toggleLabels" checked /> Name the brightest stars</label>
     <label class="check"><input type="checkbox" id="toggleSpin" /> Slow drift</label>
@@ -58,6 +72,7 @@
   <section class="help">
     <p><kbd>Drag</kbd> orbit · <kbd>Scroll</kbd> fly toward cursor · <kbd>Right-drag</kbd> pan</p>
     <p><kbd>Click</kbd> a star to inspect · <kbd>Shift</kbd>+click to compare · <kbd>Esc</kbd> reset</p>
+    <p><kbd>D</kbd> design settings</p>
   </section>
 </aside>
 
@@ -65,18 +80,19 @@
   <button id="closePanel" class="icon-btn" aria-label="Close details">×</button>
   <div class="panel-sport" id="pSport"></div>
   <h1 id="pName"></h1>
+  <div class="badges" id="pBadges"></div>
   <p class="panel-meta" id="pMeta"></p>
   <div class="goat-ring">
     <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" id="pRing" class="ring"/></svg>
     <div><span id="pGoat" class="mono big"></span><span class="lbl">GOAT score</span></div>
   </div>
   <div class="ranks">
-    <div><span class="mono" id="pGR"></span><span class="lbl">Global rank</span></div>
+    <div><span class="mono" id="pGR"></span><span class="lbl" id="pGRl">Galaxy rank</span></div>
     <div><span class="mono" id="pSR"></span><span class="lbl">Sport rank</span></div>
     <div><span class="mono" id="pSpan"></span><span class="lbl">Career</span></div>
   </div>
   <div class="bars" id="pBars"></div>
-  <h3>Career trajectory <span class="lbl">season APEX score</span></h3>
+  <h3>Career trajectory <span class="lbl">each season vs that year's elite (dashed = elite average)</span></h3>
   <svg id="pSpark" class="spark" viewBox="0 0 300 90" preserveAspectRatio="none"></svg>
   <div class="spark-axis"><span id="pY0"></span><span id="pPeak"></span><span id="pY1"></span></div>
   <button id="pinBtn" class="btn">Add to comparison</button>
@@ -88,7 +104,7 @@
 </div>
 
 <div id="tooltip" class="tooltip" role="status"></div>
-<div id="loader" class="loader"><div class="loader-dot"></div><p>Charting 6,180 careers…</p></div>
+<div id="loader" class="loader"><div class="loader-dot"></div><p>Charting 9,858 careers…</p></div>
 
 <script type="module" src="/src/main.js"></script>
 </body>
