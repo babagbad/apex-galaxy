@@ -65,14 +65,14 @@ export const settings = {
 
   scoring: {
     // Default GOAT formula = weights fitted to expert rankings (see docs/RANKING_V6.md)
-    defaultWeights: { height: 20, length: 30, separation: 50 },
+    defaultWeights: { height: 10, length: 35, separation: 55 },
     poolSize: 100,           // top N per sport used to put all sports on one scale
   },
 };
 
 // Weight presets for the "Build your own GOAT formula" panel
 export const WEIGHT_PRESETS = [
-  { name: 'Experts', weights: { height: 20, length: 30, separation: 50 } },
+  { name: 'Experts', weights: { height: 10, length: 35, separation: 55 } },
   { name: 'Equal', weights: { height: 34, length: 33, separation: 33 } },
   { name: 'Peak', weights: { height: 70, length: 10, separation: 20 } },
   { name: 'Longevity', weights: { height: 15, length: 70, separation: 15 } },

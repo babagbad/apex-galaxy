@@ -15,7 +15,8 @@ const $ = id => document.getElementById(id);
 export function setAxes(next) {
   state.axes = next;
   relayout();
-  ['axX', 'axY', 'axZ'].forEach((id, i) => { $(id).value = next[i]; });
+  ['axX', 'axY', 'axZ'].forEach((id, i) => { $(id).value = next[i]; $(id + 'd').textContent = METRICS[next[i]].desc; });
+  $('legendAxes').innerHTML = next.map((k, i) => `<span class="${'xyz'[i]}">${'→↑↗'[i]} ${METRICS[k].short}</span>`).join('');
   document.querySelectorAll('#presets button').forEach(b => b.classList.toggle('on', b.dataset.axes === next.join(',')));
   buildAxisLabels();
 }

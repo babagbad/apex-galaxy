@@ -12,6 +12,7 @@ import { build, step, pick, setHi, posOf, isAnimating, cur } from './galaxy.js';
 import { updateLabels } from './labels.js';
 import { select, togglePin } from './panel.js';
 import { initUI, setAxes, refilter } from './ui.js';
+import { initGuide } from './guide.js';
 import { flyHome, stepFlight, isFlying } from './flight.js';
 import { initDesignPanel } from './designPanel.js';
 import { SPORT_LABELS } from './settings.js';
@@ -93,6 +94,7 @@ loadAthletes().then(() => {
   setAxes(state.axes);
   refilter();
   initDesignPanel();
+  initGuide();
   document.getElementById('loader').classList.add('done');
   tick();
 }).catch(err => {

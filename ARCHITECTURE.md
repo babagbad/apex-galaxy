@@ -16,7 +16,7 @@ Plain JavaScript + [three.js](https://threejs.org) for 3D, [Vite](https://vitejs
 | Colors, star size/glow, fog, camera, label count, animation speed | `src/settings.js` (or press **D** in the browser, tune sliders, click **Copy settings**, paste into `settings.js`) |
 | Default GOAT weights and formula presets | `src/settings.js` → `scoring.defaultWeights`, `WEIGHT_PRESETS` |
 | Axis presets (APEX core, Time tunnel...) | `src/settings.js` → `AXIS_PRESETS` |
-| Text, layout of the side panels | `index.html` + `src/style.css` |
+| Text, layout of the side panels, the guide wording | `index.html` + `src/style.css` |
 | What each axis option means | `src/data.js` → `METRICS` |
 | Athlete detail card | `src/panel.js` |
 
@@ -33,6 +33,7 @@ src/panel.js        right-side athlete card, career sparkline, comparison tray
 src/ui.js           left control panel: axes, sports, formula sliders, Everyone, search
 src/flight.js       smooth camera flights
 src/designPanel.js  press D: live sliders bound to settings.js
+src/guide.js        "How it works" overlay, first-visit welcome card, legend (words live in index.html)
 src/style.css       all styling (CSS variables at the top)
 public/athletes.json  the data (built by prep_v6.py from the ranking pipeline)
 ```
