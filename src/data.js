@@ -22,21 +22,21 @@ export const state = {
 // Each metric can be put on any axis. `get` returns the number used for position.
 export const METRICS = {
   height:     { label: 'Height · best 3 seasons',   short: 'Height',     get: a => a.H,
-                desc: 'How good they were at their best. Their 3 best seasons, each compared to the elite players that same year. Higher = a higher peak.' },
+                desc: 'Peak. Their 3 best seasons, each measured against that year\'s best players.' },
   length:     { label: 'Length · elite seasons',    short: 'Length',     get: a => a.L, integer: true,
-                desc: 'How long they stayed elite. The number of seasons they finished inside their league\'s elite tier (roughly the top 1 in 8).' },
+                desc: 'Longevity. How many seasons they finished among their league\'s elite (about the top 1 in 8).' },
   separation: { label: 'Separation · margin',       short: 'Separation', get: a => a.S,
-                desc: 'How far ahead of everyone else they got. The gap between them and the next best player, in their 2 biggest seasons.' },
+                desc: 'Dominance. How far ahead of the next best player they were, in their 2 biggest seasons.' },
   goat:       { label: 'GOAT score',                short: 'GOAT',       get: a => a.G,
-                desc: 'Height, Length and Separation blended with the weights you set below. 99 = the best career in that sport pool.' },
+                desc: 'All three axes mixed together using the sliders below. 99 is the best career on the map.' },
   era:        { label: 'Era (peak year)',           short: 'Era',        get: a => a.py, year: true,
-                desc: 'The year of their single best season.' },
+                desc: 'The year of their best season.' },
   debut:      { label: 'Debut year',                short: 'Debut',      get: a => a.y0, year: true,
-                desc: 'The first season in our data.' },
+                desc: 'Their first season in the data.' },
   seasons:    { label: 'Qualified seasons',         short: 'Seasons',    get: a => a.nq, integer: true,
-                desc: 'Seasons where they played enough to count (games, innings, races or matches).' },
+                desc: 'Seasons where they played enough to count.' },
   born:       { label: 'Birth year',                short: 'Born',       get: a => a.by, year: true,
-                desc: 'Year of birth, where known.' },
+                desc: 'Birth year, when I have it.' },
 };
 
 export async function loadAthletes(url = './athletes.json') {
