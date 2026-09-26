@@ -105,6 +105,7 @@ export function initUI() {
   // min score, labels, drift
   const mg = $('minGoat');
   mg.oninput = () => { state.minGoat = +mg.value; $('minGoatVal').textContent = state.minGoat; refilter(); };
+  $('toggleOutliers').onchange = e => { state.showOutliers = e.target.checked; pickLabelSet(); };
   $('toggleLabels').onchange = e => { state.showLabels = e.target.checked; pickLabelSet(); };
   $('toggleSpin').onchange = e => { controls.autoRotate = e.target.checked; };
   $('closePanel').onclick = () => select(-1);

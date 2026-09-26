@@ -24,7 +24,7 @@ export function initGuide() {
   document.querySelectorAll('[data-curated]').forEach(e => e.textContent = cur.toLocaleString());
   document.querySelectorAll('[data-everyone]').forEach(e => e.textContent = state.athletes.length.toLocaleString());
   const per = {}; state.athletes.forEach(a => { if (a.cur) per[a.s] = (per[a.s] || 0) + 1; });
-  document.querySelectorAll('[data-per-sport]').forEach(e => e.textContent = Math.max(...Object.values(per)));
+  document.querySelectorAll('[data-per-sport]').forEach(e => e.textContent = Math.min(...Object.values(per)));
   const W = settings.scoring.defaultWeights;
   document.querySelectorAll('[data-w]').forEach(e => e.textContent = W[e.dataset.w]);
   $('guideSports').innerHTML = Object.entries(settings.colors.sports)

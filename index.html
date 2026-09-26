@@ -4,7 +4,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>APEX Galaxy: the most dominant careers in sports, in 3D</title>
-<meta name="description" content="875 of the most dominant careers across seven sports, plotted by Height, Length and Separation. Build your own GOAT formula." />
+<meta name="description" content="886 careers from 7 sports on one 3D map. Peak, longevity and dominance, measured against each era. Find out who the stats say is the GOAT of GOATs." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://apex-galaxy.vercel.app/" />
+<meta property="og:title" content="APEX Galaxy: who's the GOAT of GOATs?" />
+<meta property="og:description" content="886 careers from 7 sports on one 3D map. Peak, longevity and dominance, measured against each era." />
+<meta property="og:image" content="https://apex-galaxy.vercel.app/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="627" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="author" content="Babatunde Gbadegesin" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2305070d'/%3E%3Cpath d='M8 23 16 7l8 16' stroke='%23f5c451' stroke-width='3' fill='none'/%3E%3Ccircle cx='16' cy='18' r='2.5' fill='%23f5c451'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://api.fontshare.com" />
 <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
@@ -54,23 +63,25 @@
   </section>
 
   <section>
-    <h2>Build your GOAT formula</h2>
+    <h2>Your GOAT formula</h2>
     <div class="weights">
       <label class="w"><span class="w-name x">Height</span><input id="w_height" type="range" min="0" max="100" step="1" aria-label="Height weight" /><span id="w_height_v" class="mono"></span></label>
       <label class="w"><span class="w-name y">Length</span><input id="w_length" type="range" min="0" max="100" step="1" aria-label="Length weight" /><span id="w_length_v" class="mono"></span></label>
       <label class="w"><span class="w-name z">Separation</span><input id="w_separation" type="range" min="0" max="100" step="1" aria-label="Separation weight" /><span id="w_separation_v" class="mono"></span></label>
     </div>
     <div class="presets" id="weightPresets"></div>
-    <p class="hint">Experts = the mix that best matches published all-time lists.</p>
+    <p class="hint">Experts is the mix that lines up best with the big all-time lists. Change it, I won't be offended.</p>
   </section>
 
   <section>
-    <label class="check strong"><input type="checkbox" id="toggleEveryone" /> Show everyone <span class="mono dim"><span id="everyoneCount"></span></span></label>
-    <p class="hint">Default view: the top <span data-per-sport>125</span> per sport (<span id="curatedCount">518</span>), with at least 25 active athletes each where the data allows.</p>
+    <label class="check strong"><input type="checkbox" id="toggleEveryone" /> Show everybody <span class="mono dim"><span id="everyoneCount"></span></span></label>
+    <p class="hint">Default is the top <span data-per-sport>125</span> per sport plus the outliers (<span id="curatedCount">886</span> total), with at least 25 active players each when the data has them. Everybody gets messy.</p>
     <h2 class="mt">Minimum GOAT score <span id="minGoatVal" class="mono">0</span></h2>
     <input id="minGoat" type="range" min="0" max="90" step="1" value="0" aria-label="Minimum GOAT score" />
-    <label class="check"><input type="checkbox" id="toggleLabels" checked /> Name the brightest stars</label>
-    <label class="check"><input type="checkbox" id="toggleSpin" /> Slow drift</label>
+    <label class="check"><input type="checkbox" id="toggleLabels" checked /> Show names</label>
+    <label class="check"><input type="checkbox" id="toggleOutliers" /> Show the outliers</label>
+    <p class="hint">Guys who were elite at one thing and just okay at the rest. Colored by the axis they break.</p>
+    <label class="check"><input type="checkbox" id="toggleSpin" /> Slow spin</label>
   </section>
 
   <section class="help">
@@ -86,6 +97,7 @@
   <h1 id="pName"></h1>
   <div class="badges" id="pBadges"></div>
   <p class="panel-meta" id="pMeta"></p>
+  <p class="take" id="pTake" hidden></p>
   <div class="goat-ring">
     <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" id="pRing" class="ring"/></svg>
     <div><span id="pGoat" class="mono big"></span><span class="lbl">GOAT score</span></div>
@@ -96,14 +108,14 @@
     <div><span class="mono" id="pSpan"></span><span class="lbl">Career</span></div>
   </div>
   <div class="bars" id="pBars"></div>
-  <h3>Career trajectory <span class="lbl">each season vs that year's elite (dashed = elite average)</span></h3>
+  <h3>Season by season <span class="lbl">vs that year's elite. Dashed line = elite average</span></h3>
   <svg id="pSpark" class="spark" viewBox="0 0 300 90" preserveAspectRatio="none"></svg>
   <div class="spark-axis"><span id="pY0"></span><span id="pPeak"></span><span id="pY1"></span></div>
   <button id="pinBtn" class="btn">Add to comparison</button>
 </aside>
 
 <div id="compare" class="compare" hidden>
-  <div class="compare-head"><h2>Constellation</h2><button id="clearCompare" class="link-btn">Clear</button></div>
+  <div class="compare-head"><h2>Side by side</h2><button id="clearCompare" class="link-btn">Clear</button></div>
   <div id="compareList" class="compare-list"></div>
 </div>
 
@@ -113,15 +125,15 @@
   <span><i class="lg-star big"></i><i class="lg-star"></i> bigger, brighter = better career</span>
   <span class="legend-sep"></span>
   <span>color = sport</span>
-  <button class="link-btn" data-guide>Huh?</button>
+  <button class="link-btn" data-guide>Wait, what am I looking at?</button>
 </div>
 
 <div id="welcome" class="welcome" hidden>
   <p class="welcome-kicker">APEX Galaxy</p>
   <h2>Every dot is a career.</h2>
-  <p>Right is how high they peaked, up is how long they stayed great, forward is how far they pulled away from everybody else. Look at the top corner. That's probably who the stats say is the GOAT of GOATs.</p>
+  <p>Right is how high they peaked, up is how long they stayed great, forward is how far they pulled away from everybody else. Look at the top corner. That's probably who the stats say is the GOAT of GOATs. Then search CR7 and get mad with me.</p>
   <div class="welcome-actions">
-    <button class="btn primary" id="welcomeGo">Let me explore</button>
+    <button class="btn primary" id="welcomeGo">Let me look</button>
     <button class="btn" data-guide>How does this work?</button>
   </div>
 </div>
@@ -130,7 +142,7 @@
   <div class="guide-card">
     <button class="icon-btn" id="closeGuide" aria-label="Close guide">×</button>
     <nav class="guide-nav" aria-label="Guide sections">
-      <a href="#g-what">Reading the map</a><a href="#g-axes">The 3 axes</a><a href="#g-score">GOAT score</a><a href="#g-fair">Across sports</a><a href="#g-data">What's missing</a><a href="#g-controls">Controls</a><a href="#g-why">Why I made this</a>
+      <a href="#g-what">Reading the map</a><a href="#g-axes">The 3 axes</a><a href="#g-score">GOAT score</a><a href="#g-fair">Across sports</a><a href="#g-out">Outliers</a><a href="#g-data">What's missing</a><a href="#g-controls">Controls</a><a href="#g-why">Why I made this</a>
     </nav>
     <div class="guide-body">
       <section id="g-what">
@@ -141,7 +153,7 @@
           <div><i class="lg-star"></i><span><b>Size and brightness</b> come from the GOAT score. Big and bright means all-time. Small and dim means great, but not in that conversation.</span></div>
           <div class="sport-key" id="guideSports"></div>
         </div>
-        <p>By default you're seeing the top <span data-per-sport>125</span> from each sport, <span data-curated>0</span> stars total. If you want the full thing, check <b>Show everyone</b> and all <span data-everyone>0</span> athletes in the data show up. It gets crowded.</p>
+        <p>By default you're seeing the top <span data-per-sport>125</span> from each sport plus the outliers, <span data-curated>0</span> stars total. If you want the full thing, check <b>Show everybody</b> and all <span data-everyone>0</span> athletes in the data show up. It gets crowded.</p>
       </section>
 
       <section id="g-axes">
@@ -158,13 +170,13 @@
             <span class="axis-tag y">Y</span><h3>Length</h3>
             <p class="q">How long did you stay great?</p>
             <p>A straight count of how many seasons you finished inside the elite tier.</p>
-            <p class="eg">One monster year counts once. Fifteen really good years count fifteen times. Derrick Rose won MVP at 22, then the injuries hit. One elite season on this axis. That one still hurts.</p>
+            <p class="eg">One monster year counts once. Fifteen really good years count fifteen times. Reggie Miller is my guy here: 11 elite seasons and never once the best in the league. Derrick Rose is the flip side. MVP at 22, then the injuries. One elite season. Still hurts.</p>
           </article>
           <article class="axis-card z">
             <span class="axis-tag z">Z</span><h3>Separation</h3>
             <p class="q">How far ahead of everyone were you?</p>
             <p>The gap between you and the next best player that season. I take your 2 biggest gaps.</p>
-            <p class="eg">Being #1 is one thing. Being #1 by a mile is this.</p>
+            <p class="eg">Being #1 is one thing. Being #1 by a mile is this. Barry Bonds in the early 2000s is the answer, and nobody on the map scores higher.</p>
           </article>
         </div>
         <p class="note">Heads up: Height and Separation end up pretty close for most people, since the highest peaks usually come with the biggest gaps. Length is where careers really split apart.</p>
@@ -174,13 +186,16 @@
         <h2>The GOAT score</h2>
         <p>The GOAT score mixes the three axes. Right now it's <b>Height <span data-w="height"></span>%, Length <span data-w="length"></span>%, Separation <span data-w="separation"></span>%</b>.</p>
         <p>I didn't just pick those numbers. I tried every combination in 5% steps and kept the one that lined up best with the all-time lists people already argue about: ESPN's #NBArank, The Athletic's NHL99 and NFL 100, Joe Posnanski's Baseball 100, FourFourTwo's top 100, and a few more. That mix is the <b>Experts</b> preset.</p>
-        <p>You don't have to agree with it. Drag the sliders under <b>Build your GOAT formula</b> and watch the stars resize. The #1 at the top changes too. Try <b>Longevity</b> and see who takes over.</p>
+        <p>You don't have to agree with it. Drag the sliders under <b>Your GOAT formula</b> and watch the stars resize. The #1 at the top changes too.</p>
+        <p>Me? I'm a <b>Longevity</b> guy. Anybody can have a year. CR7 has 19 elite seasons, and Brady has 18. Flip to Longevity and LeBron takes #1, which is fair, I guess.</p>
+        <p>Where the model and I don't agree: Jordan 7th in the NBA. Kobe 24th. Maradona 24th in soccer. Take it up with the numbers.</p>
         <p class="note">Scores are scaled so 50 is the average of a sport's top 100 and 99 is the single best career on the map.</p>
       </section>
 
       <section id="g-fair">
         <h2>Comparing across sports</h2>
-        <p>This was the hardest part. Every sport gets one "season value" number, using the best all-around stat I could get for it. That number then goes up against that season's elite:</p>
+        <p>This was the hardest part. Every sport gets one "season value" number, using the best all-around stat I could get for it, and that number goes up against that season's elite.</p>
+        <p>Soccer was the worst to fit in, which is kind of ironic considering why I built this. The only stat I could find for every era was league goals.</p>
         <table class="guide-table">
           <tr><th>NBA</th><td>Win Shares + VORP, per 82 games</td></tr>
           <tr><th>NHL</th><td>Points per 82 games (defensemen scaled up so they're not buried under forwards)</td></tr>
@@ -192,12 +207,24 @@
         </table>
       </section>
 
+      <section id="g-out">
+        <h2>The outliers</h2>
+        <p>The GOAT score rewards players who were great at everything. That leaves out a certain kind of guy, the one who was elite at one thing and just okay at the rest. Those are some of the most interesting careers on here, so I tagged about 100 of them. Turn on <b>Show the outliers</b> and their names light up in the color of the axis they break.</p>
+        <ul>
+          <li><b style="color:var(--y)">Built to last.</b> Way more elite seasons than their score would tell you. Reggie Miller, Del Piero, Jim Thome, Big Ben.</li>
+          <li><b style="color:var(--x)">Burned bright.</b> A peak that belongs with the greats, but not for long enough. Derrick Rose, Fernando Torres, Félix Hernández, SGA (for now).</li>
+          <li><b style="color:var(--z)">Ran away with it.</b> One or two seasons where nobody was close. Willis Reed, Just Fontaine, Rod Laver.</li>
+        </ul>
+        <p>How I picked them: in each sport, take the top 50 on one axis, then keep the 5 whose GOAT rank is furthest behind. Anyone who wasn't already in the default view got added.</p>
+      </section>
       <section id="g-data">
         <h2>What's missing</h2>
         <p>I'd rather tell you now than have you find it. NBA, NHL, MLB, F1 and tennis use every player in league history, so the elite tier is legit. NFL and soccer use a smaller group I put together, which is why their cards say lower data confidence.</p>
         <ul>
-          <li><b>No playoffs.</b> Clutch isn't in here yet. It's the next thing I want to add.</li>
+          <li><b>No playoffs.</b> Clutch isn't in here yet. That's the next thing I'm building.</li>
           <li><b>Soccer only counts goals.</b> That's rough on defenders, keepers and playmakers. Maldini deserves better.</li>
+          <li><b>No women yet.</b> The tennis data I used is men's only, so Serena isn't on here. That one's on me. A women's galaxy is on the list.</li>
+          <li><b>Two-way players get split.</b> Ohtani's hitting and pitching are scored separately, so he looks way worse than he is.</li>
           <li><b>Active players aren't done.</b> Their Length can only go up, so they get a "Career in progress" tag.</li>
           <li><b>NFL stops at the 2024 season</b> for now.</li>
         </ul>

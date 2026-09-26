@@ -18,7 +18,9 @@ export function pickLabelSet() {
   labelsEl.querySelectorAll('.star-label').forEach(e => e.remove());
   starLabels = [];
   const set = new Set();
-  if (state.showLabels) {
+  if (state.showOutliers) {
+    state.athletes.forEach((a, i) => { if (a.o && visTarget[i] > 0) set.add(i); });
+  } else if (state.showLabels) {
     const vis = state.athletes.map((a, i) => i).filter(i => visTarget[i] > 0).sort((a, b) => state.athletes[b].raw - state.athletes[a].raw);
     vis.slice(0, settings.labels.count).forEach(i => set.add(i));
     for (const s of state.activeSports) {
@@ -30,7 +32,8 @@ export function pickLabelSet() {
   if (state.selected >= 0) set.add(state.selected);
   for (const i of set) {
     const el = document.createElement('div');
-    el.className = 'star-label' + (i === state.selected ? ' sel' : '');
+    const o = state.showOutliers && state.athletes[i].o;
+    el.className = 'star-label' + (i === state.selected ? ' sel' : '') + (o ? ' out o-' + o : '');
     el.textContent = state.athletes[i].n;
     labelsEl.appendChild(el);
     starLabels.push({ i, el });

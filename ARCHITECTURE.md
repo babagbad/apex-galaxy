@@ -19,6 +19,7 @@ Plain JavaScript + [three.js](https://threejs.org) for 3D, [Vite](https://vitejs
 | Text, layout of the side panels, the guide wording | `index.html` + `src/style.css` |
 | What each axis option means | `src/data.js` → `METRICS` |
 | Athlete detail card | `src/panel.js` |
+| My take on a player | `src/takes.js` |
 
 ## File map (in the order the app runs)
 ```
@@ -30,6 +31,7 @@ src/scene.js        three.js setup: renderer, camera, orbit controls, cube, star
 src/galaxy.js       athletes -> stars: positions, size, brightness, fading, picking
 src/labels.js       HTML name labels + axis ticks that follow the 3D scene
 src/panel.js        right-side athlete card, career sparkline, comparison tray
+src/takes.js        my one-line takes on specific players (edit freely)
 src/ui.js           left control panel: axes, sports, formula sliders, Everyone, search
 src/flight.js       smooth camera flights
 src/designPanel.js  press D: live sliders bound to settings.js
@@ -53,6 +55,7 @@ public/athletes.json  the data (built by prep_v6.py from the ranking pipeline)
 | `nq`, `n1`, `L` | qualified seasons, seasons as #1 in their league, elite-tier seasons (Length) |
 | `hz`, `lz`, `sz` | standardized Height / Length / Separation |
 | `act`, `cur` | active (played 2025 or 2025–26), part of the curated default view |
+| `o` | outlier tag: `L` built to last, `H` burned bright, `S` ran away with it (see prep_v6.py) |
 | `c` | career line: `[year, z]` per season, z = vs that season's elite (0 = elite average) |
 
 Added at runtime: `H`, `S`, `G` (display scores), `gr`/`sr`/`cr` (overall / sport / curated ranks).

@@ -2,7 +2,7 @@
 
 **Live:** https://apex-galaxy.vercel.app
 
-An interactive 3D map of the most dominant careers in sports history. 875 athletes across the NBA, NHL, MLB, NFL, Formula 1, tennis and soccer, each plotted as a star by three measures:
+An interactive 3D map of the most dominant careers in sports history. 886 athletes across the NBA, NHL, MLB, NFL, Formula 1, tennis and soccer, each plotted as a star by three measures:
 
 - **Height**: how good they were at their best (best 3 seasons vs that season's elite)
 - **Length**: how long they stayed elite (seasons inside their league's elite tier)

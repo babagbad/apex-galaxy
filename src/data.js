@@ -17,6 +17,7 @@ export const state = {
   pinned: [],
   revealed: new Set(),     // non-curated athletes shown because you searched for them
   showLabels: true,
+  showOutliers: false,     // label the one-axis outliers instead of the top stars
 };
 
 // Each metric can be put on any axis. `get` returns the number used for position.

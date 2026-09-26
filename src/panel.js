@@ -2,6 +2,7 @@
 // PANEL — the athlete detail card on the right, and the comparison tray.
 // =====================================================================
 import * as THREE from 'three';
+import { TAKES } from './takes.js';
 import { settings, SPORT_LABELS, CONFIDENCE } from './settings.js';
 import { state, shown } from './data.js';
 import { haloMat, halo, drop, floorRing } from './scene.js';
@@ -38,20 +39,26 @@ export function refreshPanel() {
   renderCompare();
 }
 
+const OUTLIER = { L: 'Outlier: built to last', H: 'Outlier: burned bright', S: 'Outlier: ran away with it' };
+
 function fillPanel(a) {
   const c = color(a);
   $('pSport').innerHTML = `<span class="dot" style="background:${c};color:${c}"></span><span style="color:${c}">${SPORT_LABELS[a.s]}</span>`;
   $('pName').textContent = a.n;
   $('pBadges').innerHTML =
     (a.act ? '<span class="badge live">Career in progress</span>' : '') +
-    (!a.cur ? '<span class="badge">Outside curated view</span>' : '') +
+    (a.o ? `<span class="badge out o-${a.o}">${OUTLIER[a.o]}</span>` : '') +
+    (!a.cur ? '<span class="badge">Outside the default view</span>' : '') +
     `<span class="badge conf-${CONFIDENCE[a.s].toLowerCase()}" title="How complete this sport's data is">Data: ${CONFIDENCE[a.s]}</span>`;
   const meta = [a.pos, a.nat, a.by ? `born ${a.by}` : null, `peak ${a.py}`].filter(Boolean);
   $('pMeta').textContent = meta.join(' · ');
+  const take = TAKES[a.n];
+  $('pTake').hidden = !take;
+  $('pTake').innerHTML = take ? `<span class="lbl">My take</span>${take}` : '';
   $('pGoat').textContent = shown(a.G).toFixed(1);
   $('pRing').style.strokeDashoffset = 326.7 * (1 - shown(a.G) / 100);
   $('pGR').textContent = '#' + (a.cur ? a.cr : a.gr).toLocaleString();
-  $('pGRl').textContent = a.cur ? 'Galaxy rank' : 'Overall rank';
+  $('pGRl').textContent = a.cur ? 'On the map' : 'Out of everyone';
   $('pSR').textContent = '#' + a.sr.toLocaleString();
   $('pSpan').textContent = a.y0 === a.y1 ? `${a.y0}` : `${a.y0}–${String(a.y1).slice(2)}`;
   const maxL = 22;
