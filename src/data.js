@@ -28,6 +28,10 @@ export const METRICS = {
                 desc: 'Longevity. How many seasons they finished among their league\'s elite (about the top 1 in 8).' },
   separation: { label: 'Separation · margin',       short: 'Separation', get: a => a.S,
                 desc: 'Dominance. How far ahead of the next best player they were, in their 2 biggest seasons.' },
+  lasted:     { label: 'Lasted · vs their peak',    short: 'Lasted',     get: a => a.xL, centered: true,
+                desc: 'Elite seasons beyond what their peak would predict. +5 = five more than players with the same Height usually get. Negative = burned out early.' },
+  pulled:     { label: 'Pulled away · vs their peak', short: 'Pulled away', get: a => a.xS, centered: true,
+                desc: 'Separation beyond what their peak would predict. High = they lapped the field more than their level says they should have.' },
   goat:       { label: 'GOAT score',                short: 'GOAT',       get: a => a.G,
                 desc: 'All three axes mixed together using the sliders below. 99 is the best career on the map.' },
   era:        { label: 'Era (peak year)',           short: 'Era',        get: a => a.py, year: true,
@@ -49,6 +53,7 @@ export async function loadAthletes(url = './athletes.json') {
     a._q = normalizeText(a.n);
   });
   scaleAxes();
+  styleAxes();
   computeScores();
   state.athletes.sort((a, b) => b.raw - a.raw);
   return state.athletes;
@@ -80,6 +85,25 @@ function toScore(key, outKey) {
 function scaleAxes() {
   toScore('hz', 'H');
   toScore('sz', 'S');
+}
+
+// ---------------------------------------------------------------------
+// Style axes. Height, Length and Separation move together (great players
+// are great at all three), which squeezes everyone onto one diagonal.
+// These two take Height out: fit a straight line on the default view,
+// then keep only what's left over. Positive = more than their peak predicts.
+// ---------------------------------------------------------------------
+function fitLine(xs, ys) {
+  const n = xs.length, mx = xs.reduce((s, v) => s + v, 0) / n, my = ys.reduce((s, v) => s + v, 0) / n;
+  let sxy = 0, sxx = 0;
+  for (let i = 0; i < n; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) ** 2; }
+  const b = sxy / sxx; return x => my + b * (x - mx);
+}
+function styleAxes() {
+  const pool = state.athletes.filter(a => a.cur);
+  const predL = fitLine(pool.map(a => a.H), pool.map(a => a.L));
+  const predS = fitLine(pool.map(a => a.H), pool.map(a => a.S));
+  for (const a of state.athletes) { a.xL = a.L - predL(a.H); a.xS = a.S - predS(a.H); }
 }
 
 // The GOAT formula. Weights come from the sliders (any numbers; we normalize).

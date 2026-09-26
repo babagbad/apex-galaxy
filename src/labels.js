@@ -42,7 +42,8 @@ export function pickLabelSet() {
 
 function tickText(k, t) {
   const r = ranges[k];
-  return Math.round(r.lo + (r.hi - r.lo) * t).toString();
+  const v = Math.round(r.lo + (r.hi - r.lo) * t);
+  return METRICS[k].centered && v > 0 ? '+' + v : v.toString();
 }
 export function buildAxisLabels() {
   axisLabels.forEach(l => l.el.remove()); axisLabels = [];

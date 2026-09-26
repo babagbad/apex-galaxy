@@ -82,6 +82,7 @@ export const WEIGHT_PRESETS = [
 // Axis presets
 export const AXIS_PRESETS = [
   { name: 'The big 3', axes: ['height', 'length', 'separation'] },
+  { name: 'Style view', axes: ['height', 'lasted', 'pulled'] },
   { name: 'Through the eras', axes: ['era', 'goat', 'height'] },
   { name: 'Iron men', axes: ['seasons', 'length', 'goat'] },
   { name: 'Tyrants', axes: ['separation', 'height', 'era'] },

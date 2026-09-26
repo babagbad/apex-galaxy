@@ -25,6 +25,13 @@ export function computeRanges() {
     let lo = vals[Math.floor(vals.length * 0.01)], hi = vals[vals.length - 1];
     if (METRICS[k].year) { lo = Math.floor(lo / 10) * 10; hi = Math.ceil(hi / 10) * 10; }
     else if (METRICS[k].integer) { lo = 0; }
+    else if (METRICS[k].centered) {
+      // symmetric around 0 so "as expected" sits in the middle of the cube
+      const abs = vals.map(Math.abs).sort((a, b) => a - b);
+      const m = abs[Math.floor(abs.length * 0.98)] || 1;
+      const step = [1, 2, 2.5, 4, 5, 10, 15, 20, 25, 50].find(x => x * 2 >= m) || 50;
+      lo = -2 * step; hi = 2 * step;
+    }
     else {
       // scores: top at 100, four evenly spaced round ticks below it
       hi = Math.max(100, Math.ceil(hi));

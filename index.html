@@ -80,7 +80,7 @@
     <input id="minGoat" type="range" min="0" max="90" step="1" value="0" aria-label="Minimum GOAT score" />
     <label class="check"><input type="checkbox" id="toggleLabels" checked /> Show names</label>
     <label class="check"><input type="checkbox" id="toggleOutliers" /> Show the outliers</label>
-    <p class="hint">Guys who were elite at one thing and just okay at the rest. Colored by the axis they break.</p>
+    <p class="hint">Guys who were elite at one thing and just okay at the rest. Colored by the axis they break. Best with Style view.</p>
     <label class="check"><input type="checkbox" id="toggleSpin" /> Slow spin</label>
   </section>
 
@@ -209,7 +209,14 @@
 
       <section id="g-out">
         <h2>The outliers</h2>
-        <p>The GOAT score rewards players who were great at everything. That leaves out a certain kind of guy, the one who was elite at one thing and just okay at the rest. Those are some of the most interesting careers on here, so I tagged about 100 of them. Turn on <b>Show the outliers</b> and their names light up in the color of the axis they break.</p>
+        <p>First, a problem I ran into. Height, Length and Separation move together. If you were great at your peak you usually lasted and usually lapped people too, so on the default map almost everybody sits on one diagonal from bottom-left to top-right. It's true, but it hides the interesting stuff.</p>
+        <p>So there's a second layout called <b>Style view</b>. Height stays on the X axis. The other two become "compared to your peak":</p>
+        <ul>
+          <li><b style="color:var(--y)">Lasted</b>: elite seasons beyond what your Height predicts. +5 means five more than players at your level usually get.</li>
+          <li><b style="color:var(--z)">Pulled away</b>: Separation beyond what your Height predicts.</li>
+        </ul>
+        <p>Zero is "about what you'd expect." Now the three axes barely overlap, and the weird careers end up at the edges where you can actually see them. Brady, Gordie Howe, Zlatan and Djokovic go straight up. Aaron Judge, SGA and George Mikan fall to the floor.</p>
+        <p>The GOAT score rewards players who were great at everything. That leaves out a certain kind of guy, the one who was elite at one thing and just okay at the rest. Those are some of the most interesting careers on here, so I tagged about 100 of them. Turn on <b>Show the outliers</b> and their names light up in the color of the axis they break. It works on any layout, but Style view is where they make the most sense.</p>
         <ul>
           <li><b style="color:var(--y)">Built to last.</b> Way more elite seasons than their score would tell you. Reggie Miller, Del Piero, Jim Thome, Big Ben.</li>
           <li><b style="color:var(--x)">Burned bright.</b> A peak that belongs with the greats, but not for long enough. Derrick Rose, Fernando Torres, Félix Hernández, SGA (for now).</li>
